@@ -1,35 +1,34 @@
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver; // such dataType is imported extra from java client
+import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities; // such dataType is imported from selenium
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URL;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FirstTest {
-    private AppiumDriver driver; // we announced a new variable "driver" of the dataType Appium Driver
+    private AppiumDriver driver;
 
-    @Before // markers for the JUnit to understand how and where to start, f.e. TestNG has "@BeforeTest"
+    @Before
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("deviceName", "AndroidTestDevice");
-        capabilities.setCapability("platformVersion", "8.0.0");//8.1 is the last one
+        capabilities.setCapability("platformVersion", "8.0.0");
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "C:/Users/Mikhail Nersesov/Desktop/JavaAppiumAutomation-2/apks/org.wikipedia.apk");
+        capabilities.setCapability("noReset",true);
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        /*
-        to turn on the Android driver;
-        Host "0.0.0.0" means we are hosting on the local server
-        linking "capabilites" to the arguments of the new object we send the info with which capabilites the androiddriver should start
-         */
     }
 
     @After
@@ -39,19 +38,22 @@ public class FirstTest {
 
     @Test
     public void firstTest() {
-        WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text,'Search Wikipedia')]");// все такие элементы имеют класс/тип данных WebElement; "//" - любая вложенность элемента; "*" - любой элемент
-        element_to_init_search.click();
 
-        //WebElement element_to_enter_search_line = driver.findElementByXPath("//*[contains(@text,'Search…')]");
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
 
-        WebElement element_to_enter_search_line = waitForElementPresentByXpath(
-                "//*[contains(@text,'Search…')]",
-                "Cannot find the search input");
-// using in the test code the method defined later (waitForElementPresentByXpath)
-        element_to_enter_search_line.sendKeys("Java");
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find 'Search…' input",
+                5
+        );
 
-        waitForElementPresentByXpath(
-                "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by Java",
                 15
         );
@@ -59,24 +61,58 @@ public class FirstTest {
         System.out.println("First test run completed");
     }
 
-    //idea: increasing test stability with "wait"; tech: create template to be filled
-    private WebElement waitForElementPresentByXpath(// create method looking for an element by its Xpath and waiting for it appear
-            String xpath, // parameter showing the method which xpath to look for
-            String error_message, // message if did not come in the defined period
-            long timeoutInSeconds // timeout to wait for the element
-    ){
-        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);// on the basis of the selenium class, create a new object using arguments AndroidDriver & timeOut
-        wait.withMessage(error_message +"/n"); // method wait using the "withMessage" method and error_message; tech:"/n" to start at the new line
-        By by = By.xpath(xpath); // defining parameter to wait for
-        return wait.until(
-                ExpectedConditions.presenceOfElementLocated(by)// we are waiting till this condition fullfils and we receive desired xpath
+
+    @Test
+    public void testCancelSearch(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find 'X' to cancel search",
+                5
+        );
+
+        waitForElementNotPresent(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "'X' is still present on the page'",
+                5
         );
     }
 
-    private WebElement waitForElementPresentByXpath(String xpath, String error_message){
-        return waitForElementPresentByXpath(xpath,error_message, 5);// timeoutTime is now constant
-    }
-}
 
-// question: how to automate the start of appium server?
-// how to clear the app to begin from the cleansetup?
+
+    private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "/n");
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    private WebElement waitForElementPresent(By by, String error_message) {
+        return waitForElementPresent(by, error_message, 5);
+    }
+
+    private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.click();
+        return element;
+    }
+
+    private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds) {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.sendKeys(value);
+        return element;
+    }
+
+    private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "/n");
+        return wait.until(
+                ExpectedConditions.invisibilityOfElementLocated(by)
+        );
+    }
+
+}
