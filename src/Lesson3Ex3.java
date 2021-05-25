@@ -41,10 +41,9 @@ public class Lesson3Ex3 {
 
         String article_element = title_element.getAttribute("text");
 
-        Assert.assertEquals(
-                "We see unexpected title!",
-                "Search Wikipedia",
-                article_element
+        Assert.assertTrue(
+                "We see unexpected content",
+                article_element == "Search Wikipedia"
         );
 
     }
