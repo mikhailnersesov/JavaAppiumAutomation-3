@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.net.URL;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -94,7 +93,7 @@ public class FirstTest {
         );
     }
 
-    @Test//тест сравнивает название статьи с ожидаемым и отдает ошибку если оно не совпадает
+    @Test
     public void testCompareArticleTitle() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -115,13 +114,13 @@ public class FirstTest {
                 5
         );
 
-        WebElement title_element = waitForElementPresent(//получаем заголовок статьи в наши тесты, создав переменную
+        WebElement title_element = waitForElementPresent(
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Cannot find article title'",
                 15
         );
 
-        String article_element = title_element.getAttribute("text"); //получаем название статьи через вызов аттрибута сохранненого вебэлемента
+        String article_element = title_element.getAttribute("text");
 
         Assert.assertEquals(
                 "We see unexpected title!",
@@ -167,6 +166,12 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
+    }
+
+    private WebElement assertElementHasText(By by, String value, String error_message, long timeoutInSeconds){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "/n");
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
 }
