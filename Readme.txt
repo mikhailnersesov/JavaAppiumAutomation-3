@@ -131,7 +131,7 @@ public class FirstTest {
 
         String article_element = title_element.getAttribute("text"); //получаем название статьи через вызов аттрибута сохранненого вебэлемента
 
-        Assert.assertEquals(
+        Assert.assertEquals(// assertEquals: assertEquals("failure - strings are not equal", "text", "text"); assert.True: assertTrue("failure - should be true", true);
                 "We see unexpected title!",
                 "Java (programming language)",
                 article_element
@@ -169,6 +169,12 @@ public class FirstTest {
 
         swipeUp(
                 2000 //the more secons, the slower the swipe
+        );
+		
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_toolbar']//*[@class='android.widget.ImageButton']"),//@content-desc='Navigate up'
+                "Cannot find 'Close' button",
+                5
         );
     }
 
