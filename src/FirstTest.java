@@ -32,10 +32,10 @@ public class FirstTest {
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
-//    @After
-//    public void tearDown() {
-//        driver.quit();
-//    }
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
 
     @Test
     public void firstTest() {
@@ -220,7 +220,7 @@ public class FirstTest {
     }
 
     @Test
-    public void saveFirstArticleToMyList(){
+    public void testSaveFirstArticleToMyList(){
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find 'Search Wikipedia' input",
@@ -270,9 +270,11 @@ public class FirstTest {
                 5
         );
 
+        String name_of_folder = "Learning programming";
+
         waitForElementAndSendKeys(
                 By.id("org.wikipedia:id/text_input"),
-                "Learning programming",
+                name_of_folder,
                 "Cannot find 'Name of the list' input",
                 5
         );
@@ -295,11 +297,17 @@ public class FirstTest {
                 5
         );
 
+//workaround IF only 1 list:
         waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@text='Learning programming']"),
-                "Cannot find created folder",
+                By.id("org.wikipedia:id/item_container"),
+                "Cannot find 'Create new' button",
                 5
         );
+//        waitForElementAndClick(
+//                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='Learning programming']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
+//                "Cannot find created folder",
+//                5
+//        );
 
         swipeElementToLeft(
                 By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
@@ -313,6 +321,43 @@ public class FirstTest {
         );
 
         System.out.println("Test run - successfull!");
+    }
+
+    @Test
+    public void testAmountOfNotEmptySearch(){
+
+      waitForElementAndClick(
+              By.id("org.wikipedia:id/search_container"),
+              "Cannot find the Search field",
+              5
+      );
+
+      String name_of_search_item = "Linkin Park discograph";
+      waitForElementAndSendKeys(
+        By.id("org.wikipedia:id/search_src_text"),
+        name_of_search_item,
+              "Cannot type in the search phrase",
+              5
+      );
+
+      String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+      waitForElementPresent(
+              By.xpath(search_result_locator),
+              "Cannot find any search results for" + search_result_locator,
+              15
+      );
+
+      int amount_of_search_results = getAmountOfElements(
+              By.xpath(search_result_locator)
+      );
+
+      Assert.assertTrue(
+              "We found too few results",
+              amount_of_search_results >0
+      );
+
+        System.out.println("Test run - successfull!");
+
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
@@ -388,25 +433,29 @@ public class FirstTest {
     }
 
     protected void swipeElementToLeft(By by, String error_message){
-        //first we search for an element on the page:
         WebElement element = waitForElementPresent(
                 by,
                 error_message,
                 10
         );
-        int left_x = element.getLocation().getX();//will save the most left x coordinate of the element
-        int right_x = left_x + element.getSize().getWidth();//will return us the rightest point of the element
-        int upper_y = element.getLocation().getY();// returns the upperest point of the bar
-        int lower_y = upper_y + element.getSize().getHeight();//returns the lowest point of the bar
-        int middle_y = (upper_y + lower_y) / 2;//to find the middle of the element
+        int left_x = element.getLocation().getX();
+        int right_x = left_x + element.getSize().getWidth();
+        int upper_y = element.getLocation().getY();
+        int lower_y = upper_y + element.getSize().getHeight();
+        int middle_y = (upper_y + lower_y) / 2;
 
-        TouchAction action = new TouchAction(driver);//we choose the Appium method
+        TouchAction action = new TouchAction(driver);
         action
                 .press(right_x, middle_y)
                 .waitAction(150)
                 .moveTo(left_x, middle_y)
                 .release()
                 .perform();
+    }
+
+    private int getAmountOfElements(By by){
+     List elements = driver.findElements(by);
+     return elements.size();
     }
 
 }
