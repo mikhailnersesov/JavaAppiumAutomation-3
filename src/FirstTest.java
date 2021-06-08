@@ -5,6 +5,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -356,7 +357,7 @@ public class FirstTest {
               amount_of_search_results >0
       );
 
-        System.out.println("Test run - successfull!");
+        System.out.println("Test run 'testAmountOfNotEmptySearch'- successfull!");
 
     }
 
@@ -393,15 +394,116 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testChangeScreenOrientationOnSearchResults(){
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find the Search field",
+                5
+        );
+
+        String name_of_search_item = "Java";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                name_of_search_item,
+                "Cannot type in the search phrase",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic searched by: " + name_of_search_item,
+                15
+        );
+
+        String title_before_rotation = waitForElementAngGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find the title of the article",
+                15
+        );
+
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        String title_after_rotation = waitForElementAngGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find the title of the article",
+                15
+        );
+
+        Assert.assertEquals(
+                "Title has changed!",
+                title_before_rotation,
+                title_after_rotation
+        );
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
+
+        String title_after_second_rotation = waitForElementAngGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find the title of the article",
+                15
+        );
+
+        Assert.assertEquals(
+                "Title has changed!",
+                title_before_rotation,
+                title_after_second_rotation
+        );
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
+
+        System.out.println("Test run 'testChangeScreenOrientationOnSearchResults'- successfull!");
+    }
+
+    @Test
+    public void testSearchArticleInBackground(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find the Search field",
+                5
+        );
+
+        String name_of_search_item = "Java";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                name_of_search_item,
+                "Cannot type in the search phrase",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic searched by: " + name_of_search_item,
+                15
+        );
+
+        driver.runAppInBackground(5);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find find article after returning from background",
+                15
+        );
+
+        System.out.println("Test run 'testChangeScreenOrientationOnSearchResults'- successfull!");
+    }
+    /*
+    Methods:
+     */
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "/n");
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    private WebElement waitForElementPresent(By by, String error_message) {
-        return waitForElementPresent(by, error_message, 5);
-    }
+//    private WebElement waitForElementPresent(By by, String error_message) {
+//        return waitForElementPresent(by, error_message, 5);
+//    }
 
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
@@ -423,17 +525,17 @@ public class FirstTest {
         );
     }
 
-    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds) { //method to clear the text we have written
+    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
     }
 
-    private WebElement assertElementHasText(By by, String value, String error_message, long timeoutInSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
-        wait.withMessage(error_message + "/n");
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
+//    private WebElement assertElementHasText(By by, String value, String error_message, long timeoutInSeconds) {
+//        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+//        wait.withMessage(error_message + "/n");
+//        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+//    }
 
     protected void swipeUp(int timeOfSwipe) {
         TouchAction action = new TouchAction(driver);
@@ -498,6 +600,11 @@ public class FirstTest {
             throw new AssertionError(default_message + " " + error_message);
         }
 
+    }
+
+    private String waitForElementAngGetAttribute(By by, String attribute, String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        return element.getAttribute(attribute);
     }
 
 }
