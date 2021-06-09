@@ -1,6 +1,7 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class Lesson4Ex5{
                 15
         );
 
-        waitForElementPresent(//waitForElementVisible
+        waitForElementVisible(
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Cannot find article title'",
                 15
@@ -87,9 +88,15 @@ public class Lesson4Ex5{
                 5
         );
 
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/text_input"),
+                "Cannot find 'Create new' button",
+                5
+        );
+
         String name_of_list = "List";
 
-        waitForElementAndSendKeys(//problem with paste
+        waitForAndroidElementAndSetValue(
                 By.id("org.wikipedia:id/text_input"),
                 name_of_list,
                 "Cannot find 'Name of the list' input",
@@ -121,13 +128,15 @@ public class Lesson4Ex5{
                 5
         );
 
+        String name_of_second_article = "Appius Claudius Caecus";
+
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Appius Claudius Caecus']"),//" + name_of_folder + "
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='" + name_of_second_article + "']"),
                 "Cannot find 'Search Wikipedia' input",
                 5
         );
 
-        waitForElementPresent(
+        waitForElementVisible(
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Cannot find article title'",
                 15
@@ -152,7 +161,7 @@ public class Lesson4Ex5{
         );
 
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='LisList']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
+                By.xpath("//android.widget.TextView[@text='" + name_of_list + "']"),
                 "Cannot find created folder",
                 5
         );
@@ -170,7 +179,7 @@ public class Lesson4Ex5{
         );
 
         waitForElementAndClick(
-                By.id("org.wikipedia:id/item_container"),//By.xpath("//android.widget.TextView[@text='LisList']")
+                By.id("org.wikipedia:id/item_container"),
                 "Cannot find created list",
                 5
         );
@@ -180,19 +189,19 @@ public class Lesson4Ex5{
                 "Cannot swipe left to delete the element"
         );
 
-        waitForElementNotPresent(
+        waitForElementVisible(
                 By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
                 "Item was not deleted properly",
                 5
         );
 
         waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@text='Appius Claudius Caecus']"),
+                By.xpath("//android.widget.TextView[@text='" + name_of_second_article + "']"),
                 "Cannot find 'X' button",
                 5
         );
 
-        waitForElementPresent(
+        waitForElementVisible(
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Cannot find article title'",
                 15
@@ -223,6 +232,12 @@ public class Lesson4Ex5{
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
+    private WebElement waitForElementVisible(By by, String error_message, long timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "/n");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.click();
@@ -233,6 +248,16 @@ public class Lesson4Ex5{
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.sendKeys(value);
         return element;
+    }
+
+    private void waitForElementAndSendKeysDifferently(By by, String value) {
+        driver.findElement(by).sendKeys(value);
+    }
+
+    private AndroidElement waitForAndroidElementAndSetValue(By by, String value, String error_message, long timeoutInSeconds) {
+        AndroidElement androidElement = (AndroidElement) waitForElementPresent(by, error_message, timeoutInSeconds);
+        androidElement.setValue(value);
+        return androidElement;
     }
 
     private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds) {
