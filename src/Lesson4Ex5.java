@@ -139,6 +139,12 @@ public class Lesson4Ex5{
                 5
         );
 
+        waitForMenuToRender(
+                By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ListView"),
+                "Cannot find 'Add to reading list' button",
+                5
+        );
+
         waitForElementAndClick(
                 By.xpath("//*[@resource-id='org.wikipedia:id/title'][@text='Add to reading list']"),
                 "Cannot find 'Add to reading list' button",
@@ -146,7 +152,7 @@ public class Lesson4Ex5{
         );
 
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='List']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
+                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='LisList']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
                 "Cannot find created folder",
                 5
         );
@@ -165,7 +171,7 @@ public class Lesson4Ex5{
 
         waitForElementAndClick(
                 By.id("org.wikipedia:id/item_container"),
-                "Cannot find 'Create new' button",
+                "Cannot find created list",
                 5
         );
 
