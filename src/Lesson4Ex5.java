@@ -101,103 +101,103 @@ public class Lesson4Ex5{
                 "Cannot press 'OK' button",
                 5
         );
-//
-//        waitForElementAndClick(
-//                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-//                "Cannot find 'X' button",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Cannot find 'Search Wikipedia' input",
-//                5
-//        );
-//
-//        waitForElementAndSendKeys(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Appium",
-//                "Cannot find 'Search…' input",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Appius Claudius Caecus']"),//" + name_of_folder + "
-//                "Cannot find 'Search Wikipedia' input",
-//                5
-//        );
-//
-//        waitForElementPresent(
-//                By.id("org.wikipedia:id/view_page_title_text"),
-//                "Cannot find article title'",
-//                15
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
-//                "Cannot find 'More' button",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/title'][@text='Add to reading list']"),
-//                "Cannot find 'Add to reading list' button",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='List']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
-//                "Cannot find created folder",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-//                "Cannot find 'X' button",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
-//                "Cannot find 'My lists' button",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.id("org.wikipedia:id/item_container"),
-//                "Cannot find 'Create new' button",
-//                5
-//        );
-//
-//        swipeElementToLeft(
-//                By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
-//                "Cannot swipe left to delete the element"
-//        );
-//
-//        waitForElementNotPresent(
-//                By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
-//                "Item was not deleted properly",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//android.widget.TextView[@text='Appius Claudius Caecus']"),
-//                "Cannot find 'X' button",
-//                5
-//        );
-//
-//        waitForElementPresent(
-//                By.id("org.wikipedia:id/view_page_title_text"),
-//                "Cannot find article title'",
-//                15
-//        );
-//
-//        assertElementHasText(
-//                By.id("org.wikipedia:id/view_page_title_text"),
-//                "Appius Claudius Caecus",
-//                "Title does not have right text",
-//                5
-//        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find 'X' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Appium",
+                "Cannot find 'Search…' input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Appius Claudius Caecus']"),//" + name_of_folder + "
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title'",
+                15
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+                "Cannot find 'More' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/title'][@text='Add to reading list']"),
+                "Cannot find 'Add to reading list' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='List']"),//By.xpath("//android.widget.TextView[@text='Learning programming']"),//" + name_of_folder + "
+                "Cannot find created folder",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
+                "Cannot find 'X' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+                "Cannot find 'My lists' button",
+                5
+        );
+
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/item_container"),
+                "Cannot find 'Create new' button",
+                5
+        );
+
+        swipeElementToLeft(
+                By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
+                "Cannot swipe left to delete the element"
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//android.widget.TextView[@text='Java (programming language)']"),
+                "Item was not deleted properly",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@text='Appius Claudius Caecus']"),
+                "Cannot find 'X' button",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title'",
+                15
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Appius Claudius Caecus",
+                "Title does not have right text",
+                5
+        );
 
         System.out.println("Test run 'testSaveTwoArticles' - successfull!");
     }
