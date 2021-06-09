@@ -51,7 +51,7 @@ public class Lesson4Ex5{
                 15
         );
 
-        waitForElementPresent(
+        waitForElementPresent(//waitForElementVisible
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Cannot find article title'",
                 15
@@ -89,7 +89,7 @@ public class Lesson4Ex5{
 
         String name_of_list = "List";
 
-        waitForElementAndSendKeys(
+        waitForElementAndSendKeys(//problem with paste
                 By.id("org.wikipedia:id/text_input"),
                 name_of_list,
                 "Cannot find 'Name of the list' input",
@@ -170,7 +170,7 @@ public class Lesson4Ex5{
         );
 
         waitForElementAndClick(
-                By.id("org.wikipedia:id/item_container"),
+                By.id("org.wikipedia:id/item_container"),//By.xpath("//android.widget.TextView[@text='LisList']")
                 "Cannot find created list",
                 5
         );
