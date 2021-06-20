@@ -144,6 +144,7 @@ public class SauceLabsTest {
 
     @After
     public void tearDown() {
+
         driver.quit();
     }
 
