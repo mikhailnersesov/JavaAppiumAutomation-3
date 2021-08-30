@@ -25,7 +25,7 @@ public class CoreTestCaseSauceLabs extends TestCase {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "com.swaglabsmobileapp");
         capabilities.setCapability("appActivity", ".MainActivity");
-        capabilities.setCapability("app", "C:/Users/Mikhail Nersesov/Documents/Education/Mobile Automation/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
+        capabilities.setCapability("app", "C:/Users/Mikhail Nersesov/Desktop/JavaAppiumAutomation-2/apks/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
         capabilities.setCapability("noReset", true);
 
         driver = new AndroidDriver(new URL(AppiumUrl), capabilities);
