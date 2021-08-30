@@ -21,7 +21,7 @@ public class SearchPageObject extends MainPageObject {
     /* TEMPLATES METHODS */
 
     public void initSearchInput() {
-        this.waitForElementPresent(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find search input after clicking SEARCH_INIT_ELEMENT");
+        this.waitForElementPresent(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find search input after clicking" + SEARCH_INIT_ELEMENT);
         this.waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find and click search unit element", 5);
     }
 

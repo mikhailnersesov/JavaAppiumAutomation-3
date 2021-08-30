@@ -156,7 +156,7 @@ public class FirstTest {
         );
 
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),// "//*" означает переход и поиск на более низком уровне
                 "Cannot find 'Search Wikipedia' input",
                 5
         );
@@ -172,9 +172,21 @@ public class FirstTest {
         );
 		
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_toolbar']//*[@class='android.widget.ImageButton']"),//@content-desc='Navigate up'
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_toolbar']//*[@class='android.widget.ImageButton']"),//@content-desc='Navigate up', searching in attribute "text" on the same level as "resource-id"
                 "Cannot find 'Close' button",
                 5
+        );
+		
+        waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title'",
+                15
+        );
+		
+        swipeUpToFindElement(//swiping till we get the text "View page in browser"
+                By.xpath("//*[@text='View page in browser']"),// "//*" - means to go 1 level down; locator 'view_page_title_text' already found - no need to define it once more
+                "Cannot find the end of the article",
+                20
         );
     }
 
@@ -252,6 +264,22 @@ public class FirstTest {
         action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform(); //"perform" send all the line of actions to be proceeded
     }
 
+//quicker swipe
+    protected void swipeUpQuick() {
+        swipeUp(200);
+    }
+
+    protected void swipeUpToFindElement(By by, String error_message, int max_swipes) {//more then "max_swipes" - cycle will stop
+        int already_swiped = 0;//the actual number of swipes
+        while (driver.findElements(by).size() == 0) {//repeates if there are no elements found. Cycle stops by >0 elements found
+            if(already_swiped > max_swipes){//stopping the code if amount of swipes is higher then max_swipes
+                waitForElementPresent(by, "Cannot find element by swiping up. \n" + error_message, 0);//if the element still not found
+                return;//leaving the method
+            }
+            swipeUpQuick();//driver.findElements(by).size() - find all the elements which are on the page and returns the number of elements found
+            ++already_swiped;//increasing after each swipe
+        }
+    }
 }
 
 // question: how to automate the start of appium server?
