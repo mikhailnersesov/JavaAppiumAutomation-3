@@ -1,9 +1,7 @@
 import lib.CoreTestCaseSauceLabs;
 import lib.ui.MainPageObjectSauceLabs;
 import lib.ui.SearchPageObjectSauceLabs;
-import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class SauceLabsTest extends CoreTestCaseSauceLabs {
 

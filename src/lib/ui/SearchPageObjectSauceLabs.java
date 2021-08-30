@@ -12,9 +12,7 @@ public class SearchPageObjectSauceLabs extends MainPageObjectSauceLabs {
             LOGIN_INPUT_WIDGET = "//android.widget.EditText",
             LOGIN_INPUT_USERNAME = "[@content-desc='test-Username']",
             LOGIN_INPUT_PASSWORD = "[@content-desc='test-Password']",
-    MENU_CART = "[@content-desc='test-Cart drop zone']",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-            SEARCH_CLOSE_BUTTON = "org.wikipedia:id/search_close_btn";
+            MENU_CART = "[@content-desc='test-Cart drop zone']",
 
     public SearchPageObjectSauceLabs(AppiumDriver driver) {
         super(driver);
@@ -58,7 +56,7 @@ public class SearchPageObjectSauceLabs extends MainPageObjectSauceLabs {
         );
     }
 
-    public void CleanTheCart(){
+    public void CleanTheCart() {
 
         String cart_item_locator = "//android.view.ViewGroup[@content-desc='test-Amount']/android.widget.TextView";
 
