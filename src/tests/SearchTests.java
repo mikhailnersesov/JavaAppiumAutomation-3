@@ -1,11 +1,7 @@
 package tests;
-
 import lib.CoreTestCase;
-import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -34,56 +30,6 @@ public class SearchTests extends CoreTestCase {
 
         System.out.println("testCancelSearch was successful");
     }
-
-//    @Test
-//    public void testSwipeTillTrendingHeaderAndCountOpenArticleAndSwipeToTheEnd() {
-//        MainPageObject.waitForElementPresent(
-//                By.id("org.wikipedia:id/search_container"),
-//                "Search field not found",
-//                5
-//        );
-//
-//        MainPageObject.swipeUpToFindElement(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/view_card_header_title'][@text='Trending']"),
-//                "'Trending' Header not found",
-//                20
-//        );
-//
-//        List<WebElement> Elements = driver.findElements(By.id("org.wikipedia:id/view_list_card_item_title"));
-//
-//        System.out.println("Number of Trending articles equals to: " + Elements.size());
-//
-//        MainPageObject.waitForElementPresent(
-//                By.id("org.wikipedia:id/view_list_card_item_title"),
-//                "item title not found",
-//                5
-//        );
-//
-//        MainPageObject.waitForElementAndClick(
-//                By.xpath("//*[contains(@text,'Boris')]"),
-//                "Boris title not found",
-//                5
-//        );
-//
-//        MainPageObject.waitForElementPresent(
-//                By.id("org.wikipedia:id/view_page_title_text"),
-//                "Cannot find article title'",
-//                15
-//        );
-//
-//        MainPageObject.swipeUpToFindElement(
-//                By.id("content_block_0"),
-//                "Cannot find the block",
-//                20
-//        );
-//
-//        MainPageObject.waitForElementPresent(
-//                By.xpath("//*[contains(@text,'since July 2019')]"),
-//                "Cannot find the part of text'",
-//                15
-//        );
-//        System.out.println("Test run - successfull!");
-//    }
 
     @Test
     public void testAmountOfNotEmptySearch() {
